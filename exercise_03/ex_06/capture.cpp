@@ -49,12 +49,14 @@ int main()
     Mat new_image, frame;
 
     VideoCapture cap("video.mpeg");
-
+    
     if(!cap.isOpened())
     {
         std::cout << "Error opening video stream or file" << std::endl;
         return -1;
     }
+
+    int frameID = 0;
 
     while(1)
     {
@@ -113,6 +115,10 @@ int main()
             circle(blurred, Point(centerX, centerY), 8, Scalar(0,255,0), -1);
         }
 	
+	string filename = "frames/frame_" + to_string(frameID) + ".png";
+	imwrite(filename, blurred);
+	frameID++;
+	
 	namedWindow("Original Image", WINDOW_NORMAL);
 	resizeWindow("Original Image", 960, 540);
         imshow("Original Image", frame);
@@ -120,8 +126,7 @@ int main()
 	namedWindow("Final Image", WINDOW_NORMAL);
 	resizeWindow("Final Image", 960, 540);
         imshow("Final Image", blurred);
-	waitKey(200);
+	waitKey(5);
     }
-
     return 0;
 }
